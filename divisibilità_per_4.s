@@ -1,3 +1,7 @@
+;dato in input un array di interi a 32 bit, inserire all'interno di
+;un array di output tutti e soli i valori divisibili per 4 (senza utilizzare
+;l'algoritmo della divisione)
+
 ARR_IN  DCD     1,2,4,8,6,12
 LEN     DCD     6
 ARR_OUT FILL    6*4

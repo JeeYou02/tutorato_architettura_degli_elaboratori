@@ -1,3 +1,7 @@
+;dato in input un array di interi a 32 bit, calcolare la somma
+;di tutti gli elementi dell'array e memorizzarla all'interno di
+;un'apposita locazione di memoria RAM.
+
 ARR    DCD     1,3,5,2,7,6
 LEN    DCD     6
 SOMMA  FILL    4
