@@ -1,0 +1,65 @@
+ARR		DCD		4,8,2,9,12,20,7,14
+LEN		DCD		8
+MIN		FILL		4
+MAX		FILL		4
+MED		FILL		4
+COUNT	FILL		4
+		
+		MOV		R0, #ARR			;puntatore array
+		MOV		R1, #LEN
+		LDR		R1, [R1]			;counter elementi
+		MOV		R9, #0x7FFFFFFF	;minimo parziale
+		
+ciclo_min	CMP		R1, #0
+		BLE		fine_min
+		LDR		R2, [R0], #4		;elemento corrente
+		SUB		R1, R1, #1
+		CMP		R2, R9
+		BGE		ciclo_min
+		
+		MOV		R9, R2
+		B		ciclo_min
+		
+fine_min	MOV		R2, #MIN
+		STR		R9, [R2]
+		
+		MOV		R0, #ARR			;puntatore array
+		MOV		R1, #LEN
+		LDR		R1, [R1]			;counter elementi
+		MOV		R8, #0x80000000	;massimo parziale
+		
+ciclo_max	CMP		R1, #0
+		BLE		fine_max
+		LDR		R2, [R0], #4
+		SUB		R1, R1, #1
+		CMP		R2, R8
+		BLE		ciclo_max
+		
+		MOV		R8, R2
+		B		ciclo_max
+		
+fine_max	MOV		R2, #MAX
+		STR		R8, [R2]
+		
+		ADD		R7, R8, R9
+		ASR		R7, R7, #1	;media
+		MOV		R2, #MED
+		STR		R7, [R2]
+		
+		MOV		R6, #0		;counter elementi superiori alla media
+		MOV		R0, #ARR		;puntatore array
+		MOV		R1, #LEN
+		LDR		R1, [R1]		;counter elementi
+		
+ciclo	CMP		R1, #0
+		BLE		fine
+		LDR		R2, [R0], #4	;elemento corrente
+		SUB		R1, R1, #1
+		CMP		R2, R7
+		BLE		ciclo
+		ADD		R6, R6, #1
+		B		ciclo
+		
+fine		MOV		R2, #COUNT
+		STR		R6, [R2]
+		END

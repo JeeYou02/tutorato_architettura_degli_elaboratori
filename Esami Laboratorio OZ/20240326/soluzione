@@ -1,0 +1,52 @@
+ARR		DCD		1,4,2,16,32,7,6,8,10,11
+LEN		EQU		10
+RES		FILL		LEN*4
+MIN		FILL		4
+MAX		FILL		4
+		
+		MOV		R0, #ARR			;puntatore all'array di input
+		MOV		R1, #RES			;puntatore all'array di output
+		MOV		R2, #LEN			;dimensione array
+		MOV		R5, #0			;contatore elementi output
+		
+ciclo	CMP		R2, #0
+		BLE		fine_1
+		LDR		R3, [R0], #4		;elemento corrente
+		SUB		R2, R2, #1
+		LSL		R4, R3, #30
+		CMP		R4, #0
+		BNE		ciclo
+		STR		R3, [R1], #4
+		ADD		R5, R5, #1
+		B		ciclo
+		
+fine_1	MOV		R0, #0x7FFFFFFF	;minimo parziale
+		MOV		R1, #RES
+		MOV		R7, R5
+		
+ciclo_min	CMP		R5, #0
+		BLE		fine_min
+		LDR		R2, [R1], #4		;elemento corrente
+		SUB		R5, R5, #1
+		CMP		R2, R0
+		BGE		ciclo_min
+		MOV		R0, R2
+		B		ciclo_min
+		
+fine_min	MOV		R3, #MIN
+		STR		R0, [R3]
+		
+		MOV		R0, #0x80000000	;massimo parziale
+		MOV		R1, #RES
+		
+ciclo_max	CMP		R7, #0
+		BLE		fine_max
+		LDR		R2, [R1], #4		;elemento corrente
+		SUB		R7, R7, #1
+		CMP		R2, R0
+		BLE		ciclo_max
+		MOV		R0, R2
+		B		ciclo_max
+		
+fine_max	MOV		R3, #MAX
+		STR		R0, [R3]

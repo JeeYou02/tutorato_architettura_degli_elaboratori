@@ -1,0 +1,26 @@
+ARR		DCD		3,9,17,1,54,27,89,52,69,92,0
+DIM		FILL		4
+OUT		FILL		5*4
+		
+		MOV		R0, #ARR			;puntatore input
+		MOV		R1, #0			;contatore elementi
+		MOV		R2, #OUT			;puntatore output
+		MOV		R3, #0x80000000	;massimo parziale
+		
+ciclo	LDR		R4, [R0], #4		;elemento corrente pari
+		CMP		R4, #0
+		BEQ		fine
+		ADD		R1, R1, #1
+		STR		R4, [R2], #4
+		CMP		R4, R3
+		BLE		disp
+		MOV		R3, R4
+disp		LDR		R4, [R0], #4		;elemento corrente dispari
+		CMP		R4, #0
+		BEQ		fine
+		ADD		R1, R1, #1
+		B		ciclo
+		
+fine		MOV		R0, #DIM
+		STR		R1, [R0]
+		END

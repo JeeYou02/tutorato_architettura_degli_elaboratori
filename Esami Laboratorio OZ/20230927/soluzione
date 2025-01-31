@@ -1,0 +1,29 @@
+ARR_A	DCD		3,7,2,13,4,26,89,18
+ARR_B	DCD		13,7,89,18,21,14,17,2,16,80
+LEN_A	DCD		8
+LEN_B	DCD		10
+		
+		MOV		R0, #0		;counter elementi
+		MOV		R1, #ARR_A	;puntatore ad a
+		MOV		R2, #ARR_B	;puntatore a b
+		MOV		R3, #LEN_A
+		MOV		R4, #LEN_B
+		LDR		R6, [R4]		;indice elementi b
+		
+ciclo_b	LDR		R5, [R3]		;indice elementi a
+		MOV		R1, #ARR_A
+		CMP		R6, #0
+		BLE		fine
+		LDR		R7, [R2], #4	;elemento corrente di b
+		SUB		R6, R6, #1
+		
+ciclo_a	CMP		R5, #0
+		BLE		ciclo_b
+		LDR		R8, [R1], #4	;elemento corrente di a
+		SUB		R5, R5, #1
+		CMP		R7, R8
+		BNE		ciclo_a
+		ADD		R0, R0, #1
+		B		ciclo_b
+		
+fine		END

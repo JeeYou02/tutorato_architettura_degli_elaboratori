@@ -1,0 +1,38 @@
+ARR_A	DCD		1,2,3,4,5,6
+LEN_A	DCD		6
+ARR_B	DCD		3,12,4,18,9,7,2,6
+LEN_B	DCD		8
+ARR_C	FILL		8
+FOUND	EQU		1
+NOT_FOUND	EQU		0
+		
+		MOV		R0, #ARR_A	;a pointer
+		MOV		R1, #LEN_A	;pointer to a length
+		MOV		R2, #ARR_B	;b pointer
+		MOV		R3, #LEN_B
+		LDR		R3, [R3]		;b elements counter
+		MOV		R4, #ARR_C	;c pointer
+		MOV		R8, #FOUND
+		MOV		R9, #NOT_FOUND
+		
+ciclo_b	CMP		R3, #0
+		BLE		fine
+		LDR		R5, [R2], #4	;b current element
+		SUB		R3, R3, #1
+		LDR		R6, [R1]		;a elements counter
+		MOV		R0, #ARR_A
+		
+ciclo_a	CMP		R6, #0
+		BLE		not_found
+		LDR		R7, [R0], #4	;a current element
+		SUB		R6, R6, #1
+		CMP		R7, R5
+		BNE		ciclo_a
+		
+		STR		R8, [R4], #4
+		B		ciclo_b
+		
+not_found	STR		R9, [R4], #4
+		B		ciclo_b
+		
+fine		END

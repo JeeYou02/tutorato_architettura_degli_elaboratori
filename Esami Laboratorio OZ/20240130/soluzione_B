@@ -1,0 +1,30 @@
+ARR		DCD		4,27,5,67,32,14,53,68,90,21,-1
+LEN		FILL		4
+ARR_OUT	FILL		5*4
+MIN		FILL		4
+		
+		MOV		R0, #ARR			;puntatore array input
+		MOV		R1, #ARR_OUT		;puntatore array output
+		MOV		R2, #0x7FFFFFFF	;minimo parziale
+		MOV		R4, #0			;contatore elementi
+		
+ciclo	LDR		R3, [R0], #4
+		CMP		R3, #-1
+		BEQ		fine
+		ADD		R4, R4, #1
+		LDR		R3, [R0], #4
+		CMP		R3, #-1
+		BEQ		fine
+		ADD		R4, R4, #1
+		STR		R3, [R1], #4
+		CMP		R3, R2
+		BGE		ciclo
+		MOV		R2, R3
+		B		ciclo
+		
+fine		MOV		R0, #LEN
+		MOV		R1, #MIN
+		STR		R4, [R0]
+		STR		R2, [R1]
+		END
+		

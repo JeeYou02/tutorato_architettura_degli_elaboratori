@@ -1,0 +1,32 @@
+ARRA		DCD		2,6,3,12,8,32,1
+ARRB		DCD		2,6,12,48,8,24,1
+LEN		DCD		7
+ARRC		FILL		7*4
+		
+		MOV		R0, #ARRA	;a pointer
+		MOV		R1, #ARRB ;b pointer
+		MOV		R2, #ARRC ;c pointer (output)
+		MOV		R3, #LEN
+		LDR		R3, [R3]	;element counter
+		MOV		R7, #0	;0 to insert
+		MOV		R8, #1	;1 to insert
+		
+ciclo	LDR		R5, [R0], #4 ;a current element
+		LDR		R6, [R1], #4 ;b current element
+		
+		CMP		R5, R6
+		BEQ		equal
+		
+		STR		R7, [R2], #4
+		SUB		R3, R3, #1
+		CMP		R3, #0
+		BLE		fine
+		B		ciclo
+		
+equal	STR		R8, [R2], #4
+		SUB		R3, R3, #1
+		CMP		R3, #0
+		BLE		fine
+		B		ciclo
+		
+fine		END

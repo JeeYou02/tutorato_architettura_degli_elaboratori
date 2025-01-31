@@ -1,0 +1,31 @@
+ARRA		DCD		1,5,2,8,12,3,18,4,6
+LEN		DCD		9
+VALK		DCD		8
+B1		FILL		9*4
+B2		FILL		9*4
+		
+		MOV		R0, #ARRA ;a pointer
+		MOV		R1, #VALK
+		LDR		R1, [R1]  ;k value
+		MOV		R2, #LEN
+		LDR		R2, [R2]	;elements counter
+		MOV		R3, #B1	;b1 pointer
+		MOV		R4, #B2	;b2 pointer
+		
+ciclo	LDR		R5, [R0], #4	;current element
+		CMP		R5, R1
+		BGE		greater
+		
+		STR		R5, [R3], #4
+		SUB		R2, R2, #1
+		CMP		R2, #0
+		BLE		fine
+		B		ciclo
+		
+greater	STR		R5, [R4], #4
+		SUB		R2, R2, #1
+		CMP		R2, #0
+		BLE		fine
+		B		ciclo
+		
+fine		END
